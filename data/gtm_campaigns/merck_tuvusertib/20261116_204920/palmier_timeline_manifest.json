@@ -1,0 +1,353 @@
+{
+  "target_id": "merck_tuvusertib",
+  "run_id": "20261116_204920",
+  "status": "dry_run",
+  "mcp_url": "http://127.0.0.1:19789/mcp",
+  "palmier": {
+    "target_id": "merck_tuvusertib",
+    "kit": {
+      "root": "/workspace/crispro-gtm-studio/crispro-studio",
+      "skill": "pharma-bd-sniper-reel",
+      "timeline_script": "timelines/video2_pharma_sniper.py",
+      "cli": "python3 timelines/video2_pharma_sniper.py --target merck_kgaa",
+      "client": "scripts/mcp_client.py (PalmierMCP, session-aware)"
+    },
+    "card": {
+      "path": "/workspace/crispro-gtm-studio/crispro-studio/targets/merck_kgaa.json",
+      "present": false,
+      "draft": "/workspace/crispro-gtm-studio/crispro-studio/targets/merck_kgaa.draft.json",
+      "gate": "SKILL.md verification gate: trial claims come from the card only; missing card blocks live render \u2014 never improvise a trial narrative"
+    },
+    "queue_grammar": "tools/call JSON-RPC, 24 fps, durationFrames/atFrame, 6 beats",
+    "status": "dry_run",
+    "mcp_url": "http://127.0.0.1:19789/mcp",
+    "reason": "target card missing at /workspace/crispro-gtm-studio/crispro-studio/targets/merck_kgaa.json; draft skeleton written \u2014 curate it per SKILL.md, then rerun",
+    "queue": [
+      {
+        "step": "manage_project create",
+        "tool": "manage_project",
+        "args": {
+          "action": "create",
+          "name": "sniper-merck_kgaa-60s",
+          "fps": 24,
+          "aspectRatio": "9:16"
+        }
+      },
+      {
+        "step": "get_timeline",
+        "tool": "get_timeline",
+        "args": {}
+      },
+      {
+        "step": "import_media failure_slide",
+        "tool": "import_media",
+        "args": {
+          "source": {
+            "path": "REQUIRES_CARD: failure_slide"
+          }
+        },
+        "requires_card": true
+      },
+      {
+        "step": "import_media rescue_view",
+        "tool": "import_media",
+        "args": {
+          "source": {
+            "path": "REQUIRES_CARD"
+          }
+        },
+        "requires_card": true
+      },
+      {
+        "step": "import_media proof_fig",
+        "tool": "import_media",
+        "args": {
+          "source": {
+            "path": "REQUIRES_CARD"
+          }
+        },
+        "requires_card": true
+      },
+      {
+        "step": "add_clips 3 beats",
+        "tool": "add_clips",
+        "args": {
+          "entries": [
+            {
+              "mediaRef": "failure_slide",
+              "durationFrames": 120
+            },
+            {
+              "mediaRef": "rescue_view",
+              "durationFrames": 144
+            },
+            {
+              "mediaRef": "proof_fig",
+              "durationFrames": 96
+            }
+          ]
+        }
+      },
+      {
+        "step": "add_texts 6 overlays",
+        "tool": "add_texts",
+        "args": {
+          "entries": [
+            {
+              "beat": 1,
+              "atFrame": 0,
+              "durationFrames": 72,
+              "text": "REQUIRES_CARD: what the data actually said."
+            },
+            {
+              "beat": 2,
+              "atFrame": 72,
+              "durationFrames": 120,
+              "text": "REQUIRES_CARD"
+            },
+            {
+              "beat": 3,
+              "atFrame": 192,
+              "durationFrames": 72,
+              "text": "The responders were there. The trial couldn't see them."
+            },
+            {
+              "beat": 4,
+              "atFrame": 264,
+              "durationFrames": 144,
+              "text": "CrisPRO rescue: REQUIRES_CARD",
+              "style": {
+                "color": "#E9ED4C"
+              }
+            },
+            {
+              "beat": 5,
+              "atFrame": 408,
+              "durationFrames": 96,
+              "text": "Mechanistic stratum, pre-treatment DNA"
+            },
+            {
+              "beat": 6,
+              "atFrame": 504,
+              "durationFrames": 72,
+              "text": "your team \u2014 one API call. crispro.bio/bd",
+              "style": {
+                "color": "#E9ED4C"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "step": "add_captions from VO script",
+        "tool": "add_captions",
+        "args": {
+          "maxWords": 4,
+          "highlightColor": "#E9ED4C",
+          "lines": [
+            "00:00] Every pharma deck in this class looks the same. Here is the one that does not.",
+            "00:05] tuvusertib: an ATR-anchored program where the interesting question is not efficacy \u2014 it is responder biology.",
+            "00:15] CrisPRO reads that biology directly: a signed engine ranks ATR WEE1 Inhibitor first for MBD4-loss contexts, and every number traces to a locked receipt.",
+            "00:30] The same pipeline mined the AACR 2026 sessions for what speakers admitted off-script: failure modes, dilution risk, ghost responders.",
+            "00:45] The result is a positioning wedge nobody else can copy \u2014 because it is not a claim, it is a trace.",
+            "00:55] Research use only. Book the demo."
+          ]
+        }
+      },
+      {
+        "step": "export_project h264",
+        "tool": "export_project",
+        "args": {
+          "mode": "video",
+          "codec": "h264",
+          "quality": "high"
+        }
+      },
+      {
+        "step": "manage_exports poll",
+        "tool": "manage_exports",
+        "args": {
+          "action": "list"
+        }
+      },
+      {
+        "step": "manage_project close (one target, one render)",
+        "tool": "manage_project",
+        "args": {
+          "action": "close"
+        }
+      }
+    ]
+  },
+  "queue": [
+    {
+      "step": "manage_project create",
+      "tool": "manage_project",
+      "args": {
+        "action": "create",
+        "name": "sniper-merck_kgaa-60s",
+        "fps": 24,
+        "aspectRatio": "9:16"
+      }
+    },
+    {
+      "step": "get_timeline",
+      "tool": "get_timeline",
+      "args": {}
+    },
+    {
+      "step": "import_media failure_slide",
+      "tool": "import_media",
+      "args": {
+        "source": {
+          "path": "REQUIRES_CARD: failure_slide"
+        }
+      },
+      "requires_card": true
+    },
+    {
+      "step": "import_media rescue_view",
+      "tool": "import_media",
+      "args": {
+        "source": {
+          "path": "REQUIRES_CARD"
+        }
+      },
+      "requires_card": true
+    },
+    {
+      "step": "import_media proof_fig",
+      "tool": "import_media",
+      "args": {
+        "source": {
+          "path": "REQUIRES_CARD"
+        }
+      },
+      "requires_card": true
+    },
+    {
+      "step": "add_clips 3 beats",
+      "tool": "add_clips",
+      "args": {
+        "entries": [
+          {
+            "mediaRef": "failure_slide",
+            "durationFrames": 120
+          },
+          {
+            "mediaRef": "rescue_view",
+            "durationFrames": 144
+          },
+          {
+            "mediaRef": "proof_fig",
+            "durationFrames": 96
+          }
+        ]
+      }
+    },
+    {
+      "step": "add_texts 6 overlays",
+      "tool": "add_texts",
+      "args": {
+        "entries": [
+          {
+            "beat": 1,
+            "atFrame": 0,
+            "durationFrames": 72,
+            "text": "REQUIRES_CARD: what the data actually said."
+          },
+          {
+            "beat": 2,
+            "atFrame": 72,
+            "durationFrames": 120,
+            "text": "REQUIRES_CARD"
+          },
+          {
+            "beat": 3,
+            "atFrame": 192,
+            "durationFrames": 72,
+            "text": "The responders were there. The trial couldn't see them."
+          },
+          {
+            "beat": 4,
+            "atFrame": 264,
+            "durationFrames": 144,
+            "text": "CrisPRO rescue: REQUIRES_CARD",
+            "style": {
+              "color": "#E9ED4C"
+            }
+          },
+          {
+            "beat": 5,
+            "atFrame": 408,
+            "durationFrames": 96,
+            "text": "Mechanistic stratum, pre-treatment DNA"
+          },
+          {
+            "beat": 6,
+            "atFrame": 504,
+            "durationFrames": 72,
+            "text": "your team \u2014 one API call. crispro.bio/bd",
+            "style": {
+              "color": "#E9ED4C"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "step": "add_captions from VO script",
+      "tool": "add_captions",
+      "args": {
+        "maxWords": 4,
+        "highlightColor": "#E9ED4C",
+        "lines": [
+          "00:00] Every pharma deck in this class looks the same. Here is the one that does not.",
+          "00:05] tuvusertib: an ATR-anchored program where the interesting question is not efficacy \u2014 it is responder biology.",
+          "00:15] CrisPRO reads that biology directly: a signed engine ranks ATR WEE1 Inhibitor first for MBD4-loss contexts, and every number traces to a locked receipt.",
+          "00:30] The same pipeline mined the AACR 2026 sessions for what speakers admitted off-script: failure modes, dilution risk, ghost responders.",
+          "00:45] The result is a positioning wedge nobody else can copy \u2014 because it is not a claim, it is a trace.",
+          "00:55] Research use only. Book the demo."
+        ]
+      }
+    },
+    {
+      "step": "export_project h264",
+      "tool": "export_project",
+      "args": {
+        "mode": "video",
+        "codec": "h264",
+        "quality": "high"
+      }
+    },
+    {
+      "step": "manage_exports poll",
+      "tool": "manage_exports",
+      "args": {
+        "action": "list"
+      }
+    },
+    {
+      "step": "manage_project close (one target, one render)",
+      "tool": "manage_project",
+      "args": {
+        "action": "close"
+      }
+    }
+  ],
+  "assets": {
+    "sniper_email": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/sniper_email.md",
+    "social_thread": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/social_thread.md",
+    "vo_script": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/vo_script.md",
+    "live_demo_curl": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/live_demo_curl.sh",
+    "palmier_timeline_manifest": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/palmier_timeline_manifest.json"
+  },
+  "evidence_packet_summary": {
+    "verified_values": 26,
+    "allowed_identifiers": [
+      "DDRiver EOC 302",
+      "10.64898/2026.11.10.765519"
+    ],
+    "ruo": true
+  }
+}

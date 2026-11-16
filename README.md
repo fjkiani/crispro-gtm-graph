@@ -92,4 +92,17 @@ that directory exists.
   registry identifiers, each labelled by provenance). Unverified numbers,
   mirage drugs (Vismodegib always; Olaparib in MBD4-only contexts), banned
   phrases, and headline ML jargon fail the gates automatically.
+- **Palmier integration is wired into the `crispro-gtm-studio` kit, not
+  reimplemented.** `palmier_bridge.py` imports the kit's own audited client
+  (`scripts/mcp_client.py` — `PalmierMCP`, session-aware, 404 re-init, SSE
+  decoding), mirrors the kit's timeline grammar (`timelines/video2_pharma_sniper.py`:
+  24 fps frame math, 6-beat structure at frames 0/72/192/264/408/504,
+  `tools/call` JSON-RPC, one-target-one-render), and enforces the SKILL.md
+  verification gate: trial claims come only from the curated target card
+  (`targets/{target}.json`); a missing card blocks live render and writes a
+  draft skeleton (registry identifiers only, nulls elsewhere) instead of
+  improvising a narrative. Campaign→kit mapping: repare/merck/astrazeneca/
+  brenus/sanofi → `pharma-bd-sniper-reel` (video2), ayesha →
+  `clinical-case-60s-brief` (video3). A stub-MCP integration test proves the
+  kit client executes the queue live end-to-end.
 - **RUO** labelling is enforced on all outputs.

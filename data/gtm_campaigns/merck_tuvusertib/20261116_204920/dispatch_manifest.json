@@ -1,0 +1,14 @@
+{
+  "target_id": "merck_tuvusertib",
+  "approval_status": "DISPATCHED",
+  "approved_by": "Alpha (human-in-the-loop interrupt)",
+  "artifacts": {
+    "sniper_email": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/sniper_email.md",
+    "social_thread": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/social_thread.md",
+    "vo_script": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/vo_script.md",
+    "live_demo_curl": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/live_demo_curl.sh",
+    "palmier_timeline_manifest": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_204920/palmier_timeline_manifest.json"
+  },
+  "palmier_status": "dry_run",
+  "ruo": true
+}

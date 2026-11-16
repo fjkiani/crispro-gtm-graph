@@ -469,50 +469,6 @@ def deterministic_anti_slop_gate(
 # ==========================================================================
 
 
-def _palmier_queue(target_id: str, vo_script: str) -> List[Dict[str, Any]]:
-    """Validated ready-to-render MCP JSON-RPC queue (streamable HTTP protocol)."""
-    return [
-        {"jsonrpc": "2.0", "id": 1, "method": "initialize",
-         "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "crispro-gtm-graph", "version": "1.0.0"}}},
-        {"jsonrpc": "2.0", "method": "notifications/initialized"},
-        {"jsonrpc": "2.0", "id": 2, "method": "manage_project",
-         "params": {"action": "create", "name": f"crispro_gtm_{target_id}", "settings": {"resolution": "1080x1920", "fps": 30}}},
-        {"jsonrpc": "2.0", "id": 3, "method": "get_timeline", "params": {}},
-        {"jsonrpc": "2.0", "id": 4, "method": "add_texts",
-         "params": {"texts": [{"text": f"CrisPRO // {target_id}", "start": 0.0, "duration": 2.5, "position": "center"}]}},
-        {"jsonrpc": "2.0", "id": 5, "method": "add_captions",
-         "params": {"captions": [{"text": line.strip("[] "), "start": i * 5.0, "duration": 5.0} for i, line in enumerate(vo_script.strip().splitlines())]}},
-        {"jsonrpc": "2.0", "id": 6, "method": "export_project",
-         "params": {"format": "video", "codec": "H.264", "filename": f"crispro_gtm_{target_id}.mp4"}},
-    ]
-
-
-def _try_palmier_live(queue: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Probe Palmier Pro MCP; execute the queue if alive, else dry_run."""
-    url = config.PALMIER_MCP_URL
-    try:
-        init = queue[0]
-        resp = httpx.post(url, json=init, timeout=3.0,
-                          headers={"Accept": "application/json, text/event-stream"})
-        if resp.status_code != 200:
-            return {"status": "dry_run", "mcp_url": url, "reason": f"initialize returned HTTP {resp.status_code}"}
-        session_id = resp.headers.get("Mcp-Session-Id")
-        executed = []
-        headers = {"Accept": "application/json, text/event-stream"}
-        if session_id:
-            headers["Mcp-Session-Id"] = session_id
-        for msg in queue[1:]:
-            if "id" not in msg:
-                continue
-            r = httpx.post(url, json=msg, timeout=10.0, headers=headers)
-            executed.append({"id": msg["id"], "http_status": r.status_code})
-        return {"status": "live", "mcp_url": url, "session_id": session_id, "executed": executed}
-    except (httpx.ConnectError, httpx.TimeoutException) as exc:
-        return {"status": "dry_run", "mcp_url": url, "reason": f"Palmier Pro not running: {type(exc).__name__}"}
-    except Exception as exc:
-        return {"status": "dry_run", "mcp_url": url, "reason": f"probe failed: {exc}"}
-
-
 def build_gtm_assets_tool(
     target_id: str,
     packet: VerifiedEvidencePacket | Dict[str, Any],
@@ -521,7 +477,11 @@ def build_gtm_assets_tool(
     output_dir: Optional[Path] = None,
 ) -> Dict[str, Any]:
     """Write the complete GTM package: sniper email, social thread, live demo
-    curl, Palmier timeline manifest + VO script. Returns the artifact manifest."""
+    curl, Palmier timeline manifest + VO script. Returns the artifact manifest.
+
+    The Palmier leg is delegated to palmier_bridge, which uses the
+    crispro-gtm-studio kit's own PalmierMCP client and timeline grammar
+    (see palmier_bridge.py docstring)."""
     if isinstance(packet, dict):
         packet = VerifiedEvidencePacket(**packet)
     run_id = _dt.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -553,15 +513,17 @@ curl -s "{config.CRISPRO_API_V3_URL}/api/kb/aacr2026/search?q=ATR&limit=3" | hea
     (out / "live_demo_curl.sh").write_text(curl, encoding="utf-8")
     (out / "live_demo_curl.sh").chmod(0o755)
 
-    queue = _palmier_queue(target_id, draft_assets["vo_script.md"])
-    palmier = _try_palmier_live(queue)
+    # Palmier leg: wired into the crispro-gtm-studio kit (client + grammar + gate)
+    from . import palmier_bridge
+
+    palmier = palmier_bridge.run_palmier_package(target_id, draft_assets["vo_script.md"])
     manifest = {
         "target_id": target_id,
         "run_id": run_id,
         "status": palmier["status"],
         "mcp_url": config.PALMIER_MCP_URL,
-        "queue": queue,
         "palmier": palmier,
+        "queue": palmier.get("queue", []),
         "assets": {
             "sniper_email": str(out / "sniper_email.md"),
             "social_thread": str(out / "social_thread.md"),

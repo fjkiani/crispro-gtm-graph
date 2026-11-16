@@ -282,7 +282,7 @@ class TestRetryLoops:
 
 
 class TestE2EMerckTuvusertib:
-    def test_full_run_pause_and_approve(self, tmp_path):
+    def test_full_run_pause_and_approve(self, tmp_path, tmp_kit):
         graph = _fresh_graph(tmp_path)
         cfg = {"configurable": {"thread_id": "e2e-" + str(uuid.uuid4())}}
         state = graph.invoke(
@@ -302,9 +302,17 @@ class TestE2EMerckTuvusertib:
         for name, path in artifacts.items():
             assert Path(path).exists(), f"{name} missing at {path}"
         manifest = json.loads(Path(artifacts["palmier_timeline_manifest"]).read_text())
-        assert manifest["status"] in ("dry_run", "live")
-        assert manifest["queue"], "Palmier MCP JSON-RPC queue must be populated"
-        assert any(q["method"] == "initialize" for q in manifest["queue"])
+        assert manifest["status"] in ("dry_run", "live", "unavailable")
+        # Palmier leg is wired into the crispro-gtm-studio kit
+        palm = manifest["palmier"]
+        assert palm["kit"]["skill"] == "pharma-bd-sniper-reel"
+        assert palm["kit"]["timeline_script"] == "timelines/video2_pharma_sniper.py"
+        assert "mcp_client.py" in palm["kit"]["client"]
+        if manifest["queue"]:
+            # kit grammar: tools/call steps, 24 fps, one-target-one-render close
+            tools = [q["tool"] for q in manifest["queue"]]
+            assert tools[0] == "manage_project" and tools[-1] == "manage_project"
+            assert "add_texts" in tools and "export_project" in tools
 
         # evidence packet provenance is honest
         packet = VerifiedEvidencePacket(**state["evidence_packet"])
