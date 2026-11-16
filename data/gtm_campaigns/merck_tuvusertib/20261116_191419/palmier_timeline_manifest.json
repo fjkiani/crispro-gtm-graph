@@ -1,0 +1,153 @@
+{
+  "target_id": "merck_tuvusertib",
+  "run_id": "20261116_191419",
+  "status": "dry_run",
+  "mcp_url": "http://127.0.0.1:19789/mcp",
+  "queue": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {},
+        "clientInfo": {
+          "name": "crispro-gtm-graph",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "method": "notifications/initialized"
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "manage_project",
+      "params": {
+        "action": "create",
+        "name": "crispro_gtm_merck_tuvusertib",
+        "settings": {
+          "resolution": "1080x1920",
+          "fps": 30
+        }
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "get_timeline",
+      "params": {}
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "add_texts",
+      "params": {
+        "texts": [
+          {
+            "text": "CrisPRO // merck_tuvusertib",
+            "start": 0.0,
+            "duration": 2.5,
+            "position": "center"
+          }
+        ]
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "method": "add_captions",
+      "params": {
+        "captions": [
+          {
+            "text": "00:00] Every pharma deck in this class looks the same. Here is the one that does not.",
+            "start": 0.0,
+            "duration": 5.0
+          },
+          {
+            "text": "",
+            "start": 5.0,
+            "duration": 5.0
+          },
+          {
+            "text": "00:05] tuvusertib: an ATR-anchored program where the interesting question is not efficacy \u2014 it is responder biology.",
+            "start": 10.0,
+            "duration": 5.0
+          },
+          {
+            "text": "",
+            "start": 15.0,
+            "duration": 5.0
+          },
+          {
+            "text": "00:15] CrisPRO reads that biology directly: a signed engine ranks ATR WEE1 Inhibitor first for MBD4-loss contexts, and every number traces to a locked receipt.",
+            "start": 20.0,
+            "duration": 5.0
+          },
+          {
+            "text": "",
+            "start": 25.0,
+            "duration": 5.0
+          },
+          {
+            "text": "00:30] The same pipeline mined the AACR 2026 sessions for what speakers admitted off-script: failure modes, dilution risk, ghost responders.",
+            "start": 30.0,
+            "duration": 5.0
+          },
+          {
+            "text": "",
+            "start": 35.0,
+            "duration": 5.0
+          },
+          {
+            "text": "00:45] The result is a positioning wedge nobody else can copy \u2014 because it is not a claim, it is a trace.",
+            "start": 40.0,
+            "duration": 5.0
+          },
+          {
+            "text": "",
+            "start": 45.0,
+            "duration": 5.0
+          },
+          {
+            "text": "00:55] Research use only. Book the demo.",
+            "start": 50.0,
+            "duration": 5.0
+          }
+        ]
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "method": "export_project",
+      "params": {
+        "format": "video",
+        "codec": "H.264",
+        "filename": "crispro_gtm_merck_tuvusertib.mp4"
+      }
+    }
+  ],
+  "palmier": {
+    "status": "dry_run",
+    "mcp_url": "http://127.0.0.1:19789/mcp",
+    "reason": "Palmier Pro not running: ConnectError"
+  },
+  "assets": {
+    "sniper_email": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_191419/sniper_email.md",
+    "social_thread": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_191419/social_thread.md",
+    "vo_script": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_191419/vo_script.md",
+    "live_demo_curl": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_191419/live_demo_curl.sh",
+    "palmier_timeline_manifest": "/workspace/crispro-gtm-graph/data/gtm_campaigns/merck_tuvusertib/20261116_191419/palmier_timeline_manifest.json"
+  },
+  "evidence_packet_summary": {
+    "verified_values": 26,
+    "allowed_identifiers": [
+      "DDRiver EOC 302",
+      "10.64898/2026.11.10.765519"
+    ],
+    "ruo": true
+  }
+}

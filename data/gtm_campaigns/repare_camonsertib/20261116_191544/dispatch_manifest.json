@@ -1,0 +1,14 @@
+{
+  "target_id": "repare_camonsertib",
+  "approval_status": "DISPATCHED",
+  "approved_by": "Alpha (human-in-the-loop interrupt)",
+  "artifacts": {
+    "sniper_email": "/workspace/crispro-gtm-graph/data/gtm_campaigns/repare_camonsertib/20261116_191544/sniper_email.md",
+    "social_thread": "/workspace/crispro-gtm-graph/data/gtm_campaigns/repare_camonsertib/20261116_191544/social_thread.md",
+    "vo_script": "/workspace/crispro-gtm-graph/data/gtm_campaigns/repare_camonsertib/20261116_191544/vo_script.md",
+    "live_demo_curl": "/workspace/crispro-gtm-graph/data/gtm_campaigns/repare_camonsertib/20261116_191544/live_demo_curl.sh",
+    "palmier_timeline_manifest": "/workspace/crispro-gtm-graph/data/gtm_campaigns/repare_camonsertib/20261116_191544/palmier_timeline_manifest.json"
+  },
+  "palmier_status": "dry_run",
+  "ruo": true
+}
